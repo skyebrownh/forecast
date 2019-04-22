@@ -7,11 +7,18 @@
   <title>Forecast</title>
   <!-- skeleton css cdn -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+  <!-- custom styles -->
+  <style>
+    li.error {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Forecast</h1>
     <p>Your 5-day / 3-hour forecast for the city of your choice from <a href="https://openweathermap.org/" target="_blank">Open Weather Map</a></p>
+    <p>DISCLAIMER: This application only works with cities with the United States</p>
     <form id="weather-form">
       <input type="text" id="city" placeholder="City">
       <input type="text" id="state" placeholder="State">
