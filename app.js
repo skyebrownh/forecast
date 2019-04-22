@@ -1,4 +1,7 @@
 const APIKEY = '56175afb98069e5cfcbbcd270003eb4c';
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const resultList = document.querySelector('.results');
 
 document.querySelector('#weather-form').addEventListener('submit', (e) => {
@@ -27,14 +30,30 @@ function getWeatherForecast (city) {
       const response = JSON.parse(this.responseText);
       console.log(response);
 
-      let output = `<p>Showing results for ${city}:</p>`;
+      let output = `<p>Showing results for ${city}: (5 day forecast at 3 hour intervals)</p>`;
       output += `<li>Latitude: ${response.city.coord.lat}</li>`;
       output += `<li>Longitude: ${response.city.coord.lon}</li>`;
       output += '<br><br>';
             
       const responseList = response.list;
-      responseList.forEach(function(item, index) {
-        output += `<li>${index}: ${item.weather[0].main} -- ${item.weather[0].description}</li>`;
+      responseList.forEach(function(item) {
+        const dateTime = item.dt_txt;
+        const timestamp = new Date(`${dateTime}`);
+        const day = days[timestamp.getDay()];
+        const month = months[timestamp.getMonth()];
+        const date = timestamp.getDate();
+        const year = timestamp.getFullYear();
+        const hour = timestamp.getHours();
+        const min = timestamp.getMinutes();
+        let hourStr;
+        let minStr;
+        let meridiem; // AM or PM
+
+        hour < 10 ? hourStr = `0${hour}` : hourStr = `${hour}`;
+        min < 10 ? minStr = `0${min}` : minStr = `${min}`;
+        hour >= 12 ? meridiem = 'PM' : meridiem = 'AM';
+
+        output += `<li>${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} -- ${item.weather[0].description}</li>`;
       });
 
       resultList.innerHTML = output;
