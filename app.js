@@ -8,6 +8,7 @@ document.querySelector('#weather-form').addEventListener('submit', (e) => {
   const stateValue = document.querySelector('#state').value;
 
   if (cityValue != '' || stateValue != '') {
+    // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
     getWeatherForecast(cityValue);
   } else {
     // FIXME: ADDON -- create an alert and show for 3 seconds
@@ -19,20 +20,24 @@ document.querySelector('#weather-form').addEventListener('submit', (e) => {
 function getWeatherForecast (city) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open('GET', `http://api.openweathermap.org/data/2.5/forecast?q=Elizabethtown,us&APPID=${APIKEY}`, true);
+  xhr.open('GET', `http://api.openweathermap.org/data/2.5/forecast?q=${city},us&APPID=${APIKEY}`, true);
 
   xhr.onload = function() {
     if (this.status === 200) {
       const response = JSON.parse(this.responseText);
       console.log(response);
 
-      let output = '';
-      
-      // FIXME: show results of all cities matching input
+      let output = `<p>Showing results for ${city}:</p>`;
+      output += `<li>Latitude: ${response.city.coord.lat}</li>`;
+      output += `<li>Longitude: ${response.city.coord.lon}</li>`;
+      output += '<br><br>';
+            
       const responseList = response.list;
-      responseList.forEach(function(item) {
-        output += '<li></li>';
+      responseList.forEach(function(item, index) {
+        output += `<li>${index}: ${item.weather[0].main} -- ${item.weather[0].description}</li>`;
       });
+
+      resultList.innerHTML = output;
     }
   }
 
