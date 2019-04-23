@@ -91,7 +91,7 @@ function getWeatherForecast (city) {
         min < 10 ? minStr = `0${min}` : minStr = `${min}`;
         hour >= 12 ? meridiem = 'PM' : meridiem = 'AM';
 
-        output += `<li class="list-group-item">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
+        output += `<li class="list-group-item bg-light">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
       resultList.innerHTML = output;
@@ -140,4 +140,8 @@ function hasWhiteSpace(s) {
 }
 
 // FIXME: color scheme
-// FIXME: weather icons
+
+// get weather icon image
+function getWeatherIcon(iconStr) {
+  return `<img src="http://openweathermap.org/img/w/${iconStr}.png"></img>`;
+}
