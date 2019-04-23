@@ -7,10 +7,11 @@ let tableDays = [],
     tableTemps = [],
     tableMains = [];
 
+const form = document.querySelector('#weather-form');
 const resultList = document.querySelector('.results');
 const cardTitles = document.querySelectorAll('.card-title');
 
-document.querySelector('#weather-form').addEventListener('submit', (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const cityValue = document.querySelector('#city').value;
@@ -20,8 +21,17 @@ document.querySelector('#weather-form').addEventListener('submit', (e) => {
     // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
     getWeatherForecast(cityValue);
   } else {
-    // FIXME: ADDON -- create an alert and show for 3 seconds
-    resultList.innerHTML = '<li class="error">Please fill in all fields.</li>';
+    // show alert for unfilled fields
+    const container = document.querySelector('#main');
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger';
+    alertDiv.setAttribute('role', 'alert');
+    alertDiv.textContent = 'Please fill in all fields.';
+    container.insertBefore(alertDiv, form);
+
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 3000);
   }
 });
 
@@ -93,14 +103,32 @@ function getWeatherForecast (city) {
       }
 
     } else if (this.status === 404) {
-      // handle '404 - NOT FOUND' error
-      resultList.innerHTML = '<li class="error list-group-item">The city you entered could not be found. Please try again.</li>';
+      // show alert for '404 - NOT FOUND' error
+      const container = document.querySelector('#main');
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert alert-danger';
+      alertDiv.setAttribute('role', 'alert');
+      alertDiv.textContent = 'The city you entered could not be found. Please try again.';
+      container.insertBefore(alertDiv, form);
+
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 3000);
     }
   }
 
   xhr.onerror = function() {
-    // handle request error
-    resultList.innerHTML = '<li class="error list-group-item">Error retrieving data. Please try again.</li>';
+    // show alert for request error
+    const container = document.querySelector('#main');
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger';
+    alertDiv.setAttribute('role', 'alert');
+    alertDiv.textContent = 'Error retrieving data. Please try again.';
+    container.insertBefore(alertDiv, form);
+
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 3000);
   }
 
   xhr.send();
