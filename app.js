@@ -37,6 +37,9 @@ suggest3.setAttribute('src', `${weatherImgs[suggest3Num]}`);
 const form = document.querySelector('#weather-form');
 const resultList = document.querySelector('.results');
 const cardTitles = document.querySelectorAll('#forecast-table .card-title');
+const tempLabels = document.querySelectorAll('.temp-label');
+const highTempLabels = document.querySelectorAll('.high-temp');
+const lowTempLabels = document.querySelectorAll('.low-temp');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -85,13 +88,15 @@ function getWeatherForecast (city) {
             
       const responseList = response.list;
       let currentDay = '';
+      let count = 0;
       responseList.forEach(function(item, index) {
         const dateTime = item.dt_txt;
         const timestamp = new Date(`${dateTime}`);
         const day = days[timestamp.getDay()];
         if (day !== currentDay) {
-          tableDays.push(currentDay);
+          tableDays.push(day);
           currentDay = day;
+          count++;
         }
         const month = months[timestamp.getMonth()];
         const date = timestamp.getDate();
@@ -113,16 +118,18 @@ function getWeatherForecast (city) {
         tableTemps.push(item.main.temp);
         tableMains.push(item.weather[0].main);
 
-        output += `<li class="list-group-item bg-light ${day}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
+        output += `<li class="list-group-item bg-light day${count}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
       resultList.innerHTML = output;
 
       // FIXME: populate forecast table
       console.log(tableDays);
-      for (let i = 1; i <= 5; i += 1) {
-        cardTitles[i-1].textContent = tableDays[i];
+      for (let i = 0; i < 5; i += 1) {
+        cardTitles[i].textContent = tableDays[i];
       }
+
+      getWeatherAverages();
 
     } else if (this.status === 404) {
       // show alert for '404 - NOT FOUND' error
@@ -176,4 +183,155 @@ function getRandomNumber(min, max) {
 // get weather averages
 function getWeatherAverages() {
   // for the length of each day class, get the average of that day's temp, highTemp, lowTemp, and the main description that occurs the most
+  const day1 = document.querySelectorAll('.day1');
+  const day2 = document.querySelectorAll('.day2');
+  const day3 = document.querySelectorAll('.day3');
+  const day4 = document.querySelectorAll('.day4');
+  const day5 = document.querySelectorAll('.day5');
+
+  let daysData = {
+    day1: {
+      highTemps: [],
+      lowTemps: [],
+      temps: [],
+      mains: []
+    },
+    day2: {
+      highTemps: [],
+      lowTemps: [],
+      temps: [],
+      mains: []
+    },
+    day3: {
+      highTemps: [],
+      lowTemps: [],
+      temps: [],
+      mains: []
+    },
+    day4: {
+      highTemps: [],
+      lowTemps: [],
+      temps: [],
+      mains: []
+    },
+    day5: {
+      highTemps: [],
+      lowTemps: [],
+      temps: [],
+      mains: []
+    }
+  }
+
+  for (let i = 0; i < day1.length; i += 1) {
+    daysData.day1.highTemps.push(tableHighs[i]);
+    daysData.day1.lowTemps.push(tableLows[i]);
+    daysData.day1.temps.push(tableTemps[i]);
+    daysData.day1.mains.push(tableMains[i]);
+  }
+
+  let nextIndex = day1.length + day2.length;
+
+  for (let i = day1.length; i < nextIndex; i += 1) {
+    daysData.day2.highTemps.push(tableHighs[i]);
+    daysData.day2.lowTemps.push(tableLows[i]);
+    daysData.day2.temps.push(tableTemps[i]);
+    daysData.day2.mains.push(tableMains[i]);
+  }
+
+  let oldIndex = nextIndex;
+  nextIndex += day3.length;
+
+  for (let i = oldIndex; i < nextIndex; i += 1) {
+    daysData.day3.highTemps.push(tableHighs[i]);
+    daysData.day3.lowTemps.push(tableLows[i]);
+    daysData.day3.temps.push(tableTemps[i]);
+    daysData.day3.mains.push(tableMains[i]);
+  }
+
+  oldIndex = nextIndex;
+  nextIndex += day4.length;
+
+  for (let i = oldIndex; i < nextIndex; i += 1) {
+    daysData.day4.highTemps.push(tableHighs[i]);
+    daysData.day4.lowTemps.push(tableLows[i]);
+    daysData.day4.temps.push(tableTemps[i]);
+    daysData.day4.mains.push(tableMains[i]);
+  }
+
+  oldIndex = nextIndex;
+  nextIndex += day5.length;
+
+  for (let i = oldIndex; i < nextIndex; i += 1) {
+    daysData.day5.highTemps.push(tableHighs[i]);
+    daysData.day5.lowTemps.push(tableLows[i]);
+    daysData.day5.temps.push(tableTemps[i]);
+    daysData.day5.mains.push(tableMains[i]);
+  }
+
+  const day1AvgValues = getAverageValues(daysData.day1);
+  const day2AvgValues = getAverageValues(daysData.day2);
+  const day3AvgValues = getAverageValues(daysData.day3);
+  const day4AvgValues = getAverageValues(daysData.day4);
+  const day5AvgValues = getAverageValues(daysData.day5);
+
+  // FIXME: show in forecast chart
+}
+
+// get average values
+function getAverageValues(dayObject) {
+  const dayHighTemps = dayObject.highTemps;
+  const dayLowTemps = dayObject.lowTemps;
+  const dayTemps = dayObject.temps;
+  const dayMains = dayObject.mains;
+
+  // average of highTemps
+  let sum1 = 0;
+  for(let i = 0; i < dayHighTemps.length; i += 1) {
+      sum1 += dayHighTemps[i];
+  }
+  const highAvg = sum1 / dayHighTemps.length;
+  // average of lowTemps
+  let sum2 = 0;
+  for(let i = 0; i < dayLowTemps.length; i += 1) {
+      sum2 += dayLowTemps[i];
+  }
+  const lowAvg = sum2 / dayLowTemps.length;
+  // average of temps
+  let sum3 = 0;
+  for(let i = 0; i < dayTemps.length; i += 1) {
+      sum3 += dayTemps[i];
+  }
+  const tempAvg = sum3 / dayTemps.length;
+  // most occurence in mains
+  const mainAvg = mode(dayMains);
+
+  return {
+    'highAvg': highAvg,
+    'lowAvg': lowAvg,
+    'tempAvg': tempAvg,
+    'mainAvg': mainAvg
+  }
+}
+
+// find most occurences of word in array
+function mode(array)
+{
+  if(array.length == 0)
+      return null;
+  var modeMap = {};
+  var maxEl = array[0], maxCount = 1;
+  for(var i = 0; i < array.length; i++)
+  {
+    var el = array[i];
+    if(modeMap[el] == null)
+        modeMap[el] = 1;
+    else
+        modeMap[el]++;  
+    if(modeMap[el] > maxCount)
+    {
+        maxEl = el;
+        maxCount = modeMap[el];
+    }
+  }
+  return maxEl;
 }
