@@ -23,20 +23,25 @@ document.querySelector('#weather-form').addEventListener('submit', (e) => {
 function getWeatherForecast (city) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open('GET', `http://api.openweathermap.org/data/2.5/forecast?q=${city},us&APPID=${APIKEY}`, true);
+  // spaces in city name must be replaced with '+' for api call
+  let cityStr;
+  hasWhiteSpace(city) ? cityStr = city.split(' ').join('+') : cityStr = city;
+
+  xhr.open('GET', `http://api.openweathermap.org/data/2.5/forecast?q=${cityStr},us&units=imperial&APPID=${APIKEY}`, true);
 
   xhr.onload = function() {
     if (this.status === 200) {
       const response = JSON.parse(this.responseText);
       console.log(response);
 
+      // populate results data
       let output = `<p>Showing results for ${city}: (5 day forecast at 3 hour intervals)</p>`;
-      output += `<li>Latitude: ${response.city.coord.lat}</li>`;
-      output += `<li>Longitude: ${response.city.coord.lon}</li>`;
+      output += `<li class="list-group-item">Latitude: ${response.city.coord.lat}</li>`;
+      output += `<li class="list-group-item">Longitude: ${response.city.coord.lon}</li>`;
       output += '<br><br>';
             
       const responseList = response.list;
-      responseList.forEach(function(item) {
+      responseList.forEach(function(item, index) {
         const dateTime = item.dt_txt;
         const timestamp = new Date(`${dateTime}`);
         const day = days[timestamp.getDay()];
@@ -49,22 +54,35 @@ function getWeatherForecast (city) {
         let minStr;
         let meridiem; // AM or PM
 
+        // make time look uniform and get meridiem
         hour < 10 ? hourStr = `0${hour}` : hourStr = `${hour}`;
         min < 10 ? minStr = `0${min}` : minStr = `${min}`;
         hour >= 12 ? meridiem = 'PM' : meridiem = 'AM';
 
-        output += `<li>${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} -- ${item.weather[0].description}</li>`;
+        output += `<li class="list-group-item">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
       resultList.innerHTML = output;
+
+      // FIXME: populate forecast table
+
+    } else if (this.status === 404) {
+      // handle '404 - NOT FOUND' error
+      resultList.innerHTML = '<li class="error list-group-item">The city you entered could not be found. Please try again.</li>';
     }
   }
 
   xhr.onerror = function() {
-    resultList.innerHTML = '<li class="error">Error retrieving data. Please try again.</li>';
+    // handle request error
+    resultList.innerHTML = '<li class="error list-group-item">Error retrieving data. Please try again.</li>';
   }
 
   xhr.send();
 }
 
-// FIXME: ability to clear list / reset and start over
+// check string for whitespace
+function hasWhiteSpace(s) {
+  return s.indexOf(' ') >= 0;
+}
+
+// FIXME: form inside spacing on small screen sizes

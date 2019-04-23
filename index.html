@@ -6,7 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Forecast</title>
   <!-- skeleton css cdn -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"> -->
+  <!-- bootstrap css 4.0 cdn  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- custom styles -->
   <style>
     li.error {
@@ -15,7 +17,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- <div class="container">
     <h1>Forecast</h1>
     <p>Your 5-day / 3-hour forecast for the city of your choice from <a href="https://openweathermap.org/" target="_blank">Open Weather Map</a></p>
     <p>DISCLAIMER: This application only works with cities with the United States</p>
@@ -24,8 +26,145 @@
       <input type="text" id="state" placeholder="State">
       <input class="button-primary" type="submit" value="Get Weather">
     </form>
+
+    <table id="forecast-table">
+      <thead>
+        <tr>
+          <th>5-Day Forecast</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="daysOfWeek">
+          <td>row 1 col 1</td>
+          <td>row 1 col 2</td>
+          <td>row 1 col 3</td>
+          <td>row 1 col 4</td>
+          <td>row 1 col 5</td>
+        </tr>
+        <tr class="weather-icons">
+          <td>row 2 col 1</td>
+          <td>row 2 col 2</td>
+          <td>row 2 col 3</td>
+          <td>row 2 col 4</td>
+          <td>row 2 col 5</td>
+        </tr>
+        <tr class="high-temp">
+          <td>row 3 col 1</td>
+          <td>row 3 col 2</td>
+          <td>row 3 col 3</td>
+          <td>row 3 col 4</td>
+          <td>row 3 col 5</td>
+        </tr>
+        <tr class="low-temp">
+          <td>row 4 col 1</td>
+          <td>row 4 col 2</td>
+          <td>row 4 col 3</td>
+          <td>row 4 col 4</td>
+          <td>row 4 col 5</td>
+        </tr>
+      </tbody>
+    </table>
+
     <ul class="results"></ul>
-  </div>
+  </div> -->
+
+  <!-- jumbotron -->
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Forecast</h1>
+      <p class="lead">Your 5-day / 3-hour forecast for the city of your choice from <a href="https://openweathermap.org/" target="_blank">Open Weather Map</a></p>
+      <p class="lead"><mark>DISCLAIMER</mark>: This application only works with cities within the United States</p>
+    </div>
+  </div><!-- ./jumbotron --> 
+
+  <!-- container -->
+  <div class="container">
+    <!-- form -->
+    <form id="weather-form">
+      <div class="form-row">
+        <div class="col-md-4 col-lg-5">
+          <input type="text" class="form-control" id="city" placeholder="City">
+        </div>
+        <div class="col-md-4 col-lg-5">
+          <input type="text" class="form-control" id="state" placeholder="State">
+        </div>
+        <div class="col-md-4 col-lg-2">
+          <button type="submit" class="btn btn-primary">Get Weather</button>
+        </div>
+      </div>
+    </form><!-- ./form -->
+
+    <!-- forecast table -->
+    <div class="card-group my-5" id="forecast-table">
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h5 class="card-title">Card title</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam dignissimos necessitatibus ea magnam praesentium, voluptatem harum et enim vitae numquam!</p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">High Temp</li>
+            <li class="list-group-item list-group-item-dark">Low Temp</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h5 class="card-title">Card title</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, quo. Temporibus commodi deserunt ullam, sed tempora assumenda ipsam sapiente illum?</p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">High Temp</li>
+            <li class="list-group-item list-group-item-dark">Low Temp</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h5 class="card-title">Card title</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam excepturi minus optio sed tempore esse quae similique pariatur commodi nulla.</p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">High Temp</li>
+            <li class="list-group-item list-group-item-dark">Low Temp</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h5 class="card-title">Card title</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus itaque dolorem architecto vero recusandae ratione reprehenderit corporis rerum tempora fuga!</p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">High Temp</li>
+            <li class="list-group-item list-group-item-dark">Low Temp</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h5 class="card-title">Card title</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore non consectetur debitis quas, aut facere omnis fuga suscipit beatae cumque.</p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">High Temp</li>
+            <li class="list-group-item list-group-item-dark">Low Temp</li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- ./forecast table -->
+
+    <ul class="results list-group list-group-flush"></ul>
+  </div><!-- ./container -->
 
   <script src="app.js"></script>
 </body>
