@@ -1,8 +1,14 @@
 const APIKEY = '56175afb98069e5cfcbbcd270003eb4c';
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+let tableDays = [],
+    tableHighs = [],
+    tableLows = [],
+    tableTemps = [],
+    tableMains = [];
 
 const resultList = document.querySelector('.results');
+const cardTitles = document.querySelectorAll('.card-title');
 
 document.querySelector('#weather-form').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -41,10 +47,26 @@ function getWeatherForecast (city) {
       output += '<br><br>';
             
       const responseList = response.list;
+      let currentDay = '';
       responseList.forEach(function(item, index) {
         const dateTime = item.dt_txt;
         const timestamp = new Date(`${dateTime}`);
         const day = days[timestamp.getDay()];
+        if (day !== currentDay) {
+          tableDays.push(currentDay);
+          currentDay = day;
+          // push new day's values as only item in arrays
+          // tableHighs = [item.main.temp_max];
+          // tableLows = [item.main.temp_min];
+          // tableTemps = [item.main.temp];
+          // tableMains = [item.weather[0].main];
+        } else {
+          // push same day's values onto existing arrays
+          // tableHighs.push(item.main.temp_max);
+          // tableLows.push(item.main.temp_min);
+          // tableTemps.push(item.main.temp);
+          // tableMains.push(item.weather[0].main);
+        }
         const month = months[timestamp.getMonth()];
         const date = timestamp.getDate();
         const year = timestamp.getFullYear();
@@ -65,6 +87,10 @@ function getWeatherForecast (city) {
       resultList.innerHTML = output;
 
       // FIXME: populate forecast table
+      console.log(tableDays);
+      for (let i = 1; i <= 5; i += 1) {
+        cardTitles[i-1].textContent = tableDays[i];
+      }
 
     } else if (this.status === 404) {
       // handle '404 - NOT FOUND' error
