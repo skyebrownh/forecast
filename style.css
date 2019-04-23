@@ -1,0 +1,25 @@
+/* heading styles */
+#suggestion-heading {
+  text-align: center;
+}
+
+/* card styles */
+.card-deck {
+  /* overwrite default bootstrap values for spacing on suggestions */
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.suggestions .card {
+  width: 400px;
+  height: 400px;
+}
+
+#forecast-table .card {
+  min-width: 160px;
+}
+
+/* results styles */
+li.error {
+  color: red;
+}

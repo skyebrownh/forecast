@@ -7,9 +7,36 @@ let tableDays = [],
     tableTemps = [],
     tableMains = [];
 
+// populate suggestion images
+const weatherImgs = [
+  'img/beautiful-clouds-cloudy-209831.jpg',
+  'img/bird-s-eye-view-bright-close-up-1438761.jpg',
+  'img/black-and-white-clear-cool-459451.jpg', 
+  'img/blue-sky-bright-cloudiness-1431822.jpg', 
+  'img/clouds-colors-cropland-108941.jpg', 
+  'img/clouds-dark-dark-clouds-416920.jpg' 
+];
+const suggest1 = document.querySelector('#suggest1');
+const suggest2 = document.querySelector('#suggest2');
+const suggest3 = document.querySelector('#suggest3');
+const suggest1Num = getRandomNumber(0, 5);
+let suggest2Num = getRandomNumber(0, 5);
+let suggest3Num = getRandomNumber(0, 5);
+// make sure nums are different
+while (suggest2Num === suggest1Num) {
+  suggest2Num = getRandomNumber(0, 5);
+}
+while (suggest3Num === suggest1Num || suggest3Num === suggest2Num) {
+  suggest3Num = getRandomNumber(0, 5);
+}
+suggest1.setAttribute('src', `${weatherImgs[suggest1Num]}`);
+suggest2.setAttribute('src', `${weatherImgs[suggest2Num]}`);
+suggest3.setAttribute('src', `${weatherImgs[suggest3Num]}`);
+
+// DOM constants
 const form = document.querySelector('#weather-form');
 const resultList = document.querySelector('.results');
-const cardTitles = document.querySelectorAll('.card-title');
+const cardTitles = document.querySelectorAll('#forecast-table .card-title');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -65,17 +92,6 @@ function getWeatherForecast (city) {
         if (day !== currentDay) {
           tableDays.push(currentDay);
           currentDay = day;
-          // push new day's values as only item in arrays
-          // tableHighs = [item.main.temp_max];
-          // tableLows = [item.main.temp_min];
-          // tableTemps = [item.main.temp];
-          // tableMains = [item.weather[0].main];
-        } else {
-          // push same day's values onto existing arrays
-          // tableHighs.push(item.main.temp_max);
-          // tableLows.push(item.main.temp_min);
-          // tableTemps.push(item.main.temp);
-          // tableMains.push(item.weather[0].main);
         }
         const month = months[timestamp.getMonth()];
         const date = timestamp.getDate();
@@ -91,7 +107,13 @@ function getWeatherForecast (city) {
         min < 10 ? minStr = `0${min}` : minStr = `${min}`;
         hour >= 12 ? meridiem = 'PM' : meridiem = 'AM';
 
-        output += `<li class="list-group-item bg-light">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
+        // push all values to global arrays
+        tableHighs.push(item.main.temp_max);
+        tableLows.push(item.main.temp_min);
+        tableTemps.push(item.main.temp);
+        tableMains.push(item.weather[0].main);
+
+        output += `<li class="list-group-item bg-light ${day}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
       resultList.innerHTML = output;
@@ -144,4 +166,14 @@ function hasWhiteSpace(s) {
 // get weather icon image
 function getWeatherIcon(iconStr) {
   return `<img src="http://openweathermap.org/img/w/${iconStr}.png"></img>`;
+}
+
+// get random number
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+// get weather averages
+function getWeatherAverages() {
+  // for the length of each day class, get the average of that day's temp, highTemp, lowTemp, and the main description that occurs the most
 }

@@ -8,35 +8,50 @@
   <!-- bootstrap css 4.0 cdn  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- custom styles -->
-  <style>
-    .card {
-      min-width: 160px;
-    }
-    
-    li.error {
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
   <!-- jumbotron -->
   <div class="jumbotron jumbotron-fluid bg-warning">
     <div class="container">
-      <h1 class="display-4">Forecast</h1>
+      <h1 class="display-3">Forecast</h1>
       <p class="lead">Your 5-day / 3-hour forecast for the city of your choice from <a href="https://openweathermap.org/" target="_blank">Open Weather Map</a></p>
       <p class="lead"><mark>DISCLAIMER</mark>: This application only works with cities within the United States</p>
     </div>
   </div><!-- ./jumbotron --> 
 
-  <!-- FIXME: finish background -->
-  <!-- <div class="background-imgs">
-    <img src="img/beautiful-clouds-cloudy-209831.jpg" alt="">
-    <img src="img/bird-s-eye-view-bright-close-up-1438761.jpg" alt="">
-    <img src="img/black-and-white-clear-cool-459451.jpg" alt="">
-    <img src="img/blue-sky-bright-cloudiness-1431822.jpg" alt="">
-    <img src="img/clouds-colors-cropland-108941.jpg" alt="">
-    <img src="img/clouds-dark-dark-clouds-416920.jpg" alt="">
-  </div> -->
+  <!-- FIXME: suggestions-->
+  <!-- FIXME: small screen sizes -->
+  <!-- FIXME: make images links/buttons to automatically show those cities data -->
+  <!-- FIXME: scale images up on hover -->
+  <!-- FIXME: fix content sizing -->
+  <h2 class="mb-5" id="suggestion-heading">Suggestions based on popular U.S. cities:</h2>
+  <div class="card-deck suggestions mb-4">
+    <div class="card bg-dark text-white">
+      <img class="card-img" id="suggest1">
+      <div class="card-img-overlay">
+        <h5 class="card-title">New York</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Last updated 3 mins ago</p>
+      </div>
+    </div>
+    <div class="card bg-dark text-white">
+      <img class="card-img" id="suggest2">
+      <div class="card-img-overlay">
+        <h5 class="card-title">Los Angeles</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Last updated 3 mins ago</p>
+      </div>
+    </div>
+    <div class="card bg-dark text-white">
+      <img class="card-img" id="suggest3">
+      <div class="card-img-overlay">
+        <h5 class="card-title">Chicago</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Last updated 3 mins ago</p>
+      </div>
+    </div>
+  </div>
 
   <!-- container -->
   <div class="container" id="main">
@@ -123,6 +138,7 @@
         </div>
       </div>
     </div><!-- ./forecast table -->
+    <small>*Note: six days may be displayed in the data below depending on the time of day. This chart only shows the first 5 that appear.</small>
 
     <ul class="results list-group list-group-flush mb-5"></ul>
   </div><!-- ./container -->
