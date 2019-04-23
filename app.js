@@ -139,4 +139,5 @@ function hasWhiteSpace(s) {
   return s.indexOf(' ') >= 0;
 }
 
-// FIXME: form inside spacing on small screen sizes
+// FIXME: color scheme
+// FIXME: weather icons

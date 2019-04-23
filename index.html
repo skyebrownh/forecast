@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- custom styles -->
   <style>
+    .card {
+      min-width: 160px;
+    }
+    
     li.error {
       color: red;
     }
@@ -24,6 +28,7 @@
     </div>
   </div><!-- ./jumbotron --> 
 
+  <!-- FIXME: finish -->
   <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -52,20 +57,20 @@
     <form id="weather-form">
       <div class="form-row">
         <div class="col-md-4 col-lg-5">
-          <input type="text" class="form-control" id="city" placeholder="City">
+          <input type="text" class="form-control my-3" id="city" placeholder="City">
         </div>
         <div class="col-md-4 col-lg-5">
-          <input type="text" class="form-control" id="state" placeholder="State">
+          <input type="text" class="form-control my-3" id="state" placeholder="State">
         </div>
         <div class="col-md-4 col-lg-2">
-          <button type="submit" class="btn btn-primary">Get Weather</button>
+          <button type="submit" class="btn btn-primary my-3">Get Weather</button>
         </div>
       </div>
     </form><!-- ./form -->
 
     <!-- forecast table -->
     <div class="card-deck my-5" id="forecast-table">
-      <div class="card border-dark">
+      <div class="card border-dark my-3">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-header">
           <h5 class="card-title">Card title</h5>
@@ -78,7 +83,7 @@
           </ul>
         </div>
       </div>
-      <div class="card border-dark">
+      <div class="card border-dark my-3">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-header">
           <h5 class="card-title">Card title</h5>
@@ -91,7 +96,7 @@
           </ul>
         </div>
       </div>
-      <div class="card border-dark">
+      <div class="card border-dark my-3">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-header">
           <h5 class="card-title">Card title</h5>
@@ -104,7 +109,7 @@
           </ul>
         </div>
       </div>
-      <div class="card border-dark">
+      <div class="card border-dark my-3">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-header">
           <h5 class="card-title">Card title</h5>
@@ -117,7 +122,7 @@
           </ul>
         </div>
       </div>
-      <div class="card border-dark">
+      <div class="card border-dark my-3">
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-header">
           <h5 class="card-title">Card title</h5>
