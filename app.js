@@ -1,14 +1,15 @@
+// ----------------------- GLOBAL CONSTANTS / VARIABLES
 const APIKEY = '56175afb98069e5cfcbbcd270003eb4c';
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// forecast table global arrays
 let tableDays = [],
     tableHighs = [],
     tableLows = [],
     tableTemps = [],
     tableMains = [],
     tableIcons = [];
-
-// populate suggestion images
+// suggestion images
 const weatherImgs = [
   'img/beautiful-clouds-cloudy-209831.jpg',
   'img/bird-s-eye-view-bright-close-up-1438761.jpg',
@@ -17,23 +18,7 @@ const weatherImgs = [
   'img/clouds-colors-cropland-108941.jpg', 
   'img/clouds-dark-dark-clouds-416920.jpg' 
 ];
-const suggest1 = document.querySelector('#suggest1');
-const suggest2 = document.querySelector('#suggest2');
-const suggest3 = document.querySelector('#suggest3');
-const suggest1Num = getRandomNumber(0, 5);
-let suggest2Num = getRandomNumber(0, 5);
-let suggest3Num = getRandomNumber(0, 5);
-// make sure nums are different
-while (suggest2Num === suggest1Num) {
-  suggest2Num = getRandomNumber(0, 5);
-}
-while (suggest3Num === suggest1Num || suggest3Num === suggest2Num) {
-  suggest3Num = getRandomNumber(0, 5);
-}
-suggest1.setAttribute('src', `${weatherImgs[suggest1Num]}`);
-suggest2.setAttribute('src', `${weatherImgs[suggest2Num]}`);
-suggest3.setAttribute('src', `${weatherImgs[suggest3Num]}`);
-
+populateSuggestionImages();
 // DOM constants
 const form = document.querySelector('#weather-form');
 const resultList = document.querySelector('.results');
@@ -44,6 +29,7 @@ const lowTempLabels = document.querySelectorAll('.low-temp');
 const suggestionsDiv = document.querySelector('.suggestions');
 const submitBtn = document.querySelector('button[type=submit]');
 
+// ----------------------- EVENT LISTENERS
 // form submit event listener
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -51,6 +37,7 @@ form.addEventListener('submit', (e) => {
   const cityValue = document.querySelector('#city').value;
   const stateValue = document.querySelector('#state').value;
 
+  // validation
   if (cityValue != '' && stateValue != '') {
     // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
     document.querySelector('#forecast-table').style.display = 'flex';
@@ -76,10 +63,11 @@ suggestionsDiv.addEventListener('click', function (e) {
   if (e.target.classList.contains('suggestion-btn')) {
     document.querySelector('#city').value = e.target.getAttribute('id');
     document.querySelector('#state').value = ' '; // state needs a value other than an empty string to avoid validation errors
-    submitBtn.click();
+    submitBtn.click(); // trigger form submit event
   }
 });
 
+// ----------------------- HELPER FUNCTIONS
 // get weather for the specified city and state
 function getWeatherForecast (city) {
   const xhr = new XMLHttpRequest();
@@ -93,7 +81,7 @@ function getWeatherForecast (city) {
   xhr.onload = function() {
     if (this.status === 200) {
       const response = JSON.parse(this.responseText);
-      console.log(response);
+      // console.log(response);
 
       // populate results data
       let output = `<p>Showing results for ${city}: (5 day forecast at 3 hour intervals)</p>`;
@@ -108,6 +96,7 @@ function getWeatherForecast (city) {
         const dateTime = item.dt_txt;
         const timestamp = new Date(`${dateTime}`);
         const day = days[timestamp.getDay()];
+        // keep track of days for forecast table
         if (day !== currentDay) {
           tableDays.push(day);
           currentDay = day;
@@ -134,17 +123,25 @@ function getWeatherForecast (city) {
         tableMains.push(item.weather[0].main);
         tableIcons.push(item.weather[0].icon);
 
+        // create list items from data
         output += `<li class="list-group-item day${count}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
+      // show results
       resultList.innerHTML = output;
 
+      // set card titles to next 5 days
       for (let i = 0; i < 5; i += 1) {
         cardTitles[i].textContent = tableDays[i];
       }
-
       getWeatherAverages();
-
+      // reset global arrays
+      tableDays = [];
+      tableHighs = []
+      tableLows = [];
+      tableTemps = [];
+      tableMains = [];
+      tableIcons = [];
     } else if (this.status === 404) {
       // show alert for '404 - NOT FOUND' error
       const container = document.querySelector('#main');
@@ -177,19 +174,24 @@ function getWeatherForecast (city) {
   xhr.send();
 }
 
-// check string for whitespace
-function hasWhiteSpace(s) {
-  return s.indexOf(' ') >= 0;
-}
-
-// get weather icon image
-function getWeatherIcon(iconStr) {
-  return `<img src="http://openweathermap.org/img/w/${iconStr}.png"></img>`;
-}
-
-// get random number
-function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+// populate suggestion images
+function populateSuggestionImages() {
+  const suggest1 = document.querySelector('#suggest1');
+  const suggest2 = document.querySelector('#suggest2');
+  const suggest3 = document.querySelector('#suggest3');
+  const suggest1Num = getRandomNumber(0, 5);
+  let suggest2Num = getRandomNumber(0, 5);
+  let suggest3Num = getRandomNumber(0, 5);
+  // make sure nums are different
+  while (suggest2Num === suggest1Num) {
+    suggest2Num = getRandomNumber(0, 5);
+  }
+  while (suggest3Num === suggest1Num || suggest3Num === suggest2Num) {
+    suggest3Num = getRandomNumber(0, 5);
+  }
+  suggest1.setAttribute('src', `${weatherImgs[suggest1Num]}`);
+  suggest2.setAttribute('src', `${weatherImgs[suggest2Num]}`);
+  suggest3.setAttribute('src', `${weatherImgs[suggest3Num]}`);
 }
 
 // get weather averages
@@ -200,7 +202,7 @@ function getWeatherAverages() {
   const day3 = document.querySelectorAll('.day3');
   const day4 = document.querySelectorAll('.day4');
   const day5 = document.querySelectorAll('.day5');
-
+  // object that will hold all average data for each day
   let daysData = {
     day1: {
       highTemps: [],
@@ -239,6 +241,7 @@ function getWeatherAverages() {
     }
   }
 
+  // get each day's data from global arrays
   for (let i = 0; i < day1.length; i += 1) {
     daysData.day1.highTemps.push(tableHighs[i]);
     daysData.day1.lowTemps.push(tableLows[i]);
@@ -246,7 +249,6 @@ function getWeatherAverages() {
     daysData.day1.mains.push(tableMains[i]);
     daysData.day1.icons.push(tableIcons[i]);
   }
-
   let nextIndex = day1.length + day2.length;
 
   for (let i = day1.length; i < nextIndex; i += 1) {
@@ -256,7 +258,6 @@ function getWeatherAverages() {
     daysData.day2.mains.push(tableMains[i]);
     daysData.day2.icons.push(tableIcons[i]);
   }
-
   let oldIndex = nextIndex;
   nextIndex += day3.length;
 
@@ -267,7 +268,6 @@ function getWeatherAverages() {
     daysData.day3.mains.push(tableMains[i]);
     daysData.day3.icons.push(tableIcons[i]);
   }
-
   oldIndex = nextIndex;
   nextIndex += day4.length;
 
@@ -278,7 +278,6 @@ function getWeatherAverages() {
     daysData.day4.mains.push(tableMains[i]);
     daysData.day4.icons.push(tableIcons[i]);
   }
-
   oldIndex = nextIndex;
   nextIndex += day5.length;
 
@@ -295,6 +294,7 @@ function getWeatherAverages() {
   const day3AvgValues = getAverageValues(daysData.day3);
   const day4AvgValues = getAverageValues(daysData.day4);
   const day5AvgValues = getAverageValues(daysData.day5);
+  // create array of objects holding average values for each day to be indexed with DOM labels
   const dayAvgArray = [
     day1AvgValues,
     day2AvgValues,
@@ -337,8 +337,9 @@ function getAverageValues(dayObject) {
       sum3 += dayTemps[i];
   }
   const tempAvg = sum3 / dayTemps.length;
-  // most occurence in mains
+  // most occurrence in mains
   const mainAvg = mode(dayMains);
+  // most occurrence in icons
   const iconAvg = mode(dayIcons);
 
   return {
@@ -350,25 +351,39 @@ function getAverageValues(dayObject) {
   }
 }
 
-// find most occurences of word in array
-function mode(array)
-{
+// find most occurences of word in array -- (Stack Overflow: https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array)
+function mode(array) {
   if(array.length == 0)
-      return null;
+    return null;
   var modeMap = {};
   var maxEl = array[0], maxCount = 1;
   for(var i = 0; i < array.length; i++)
   {
     var el = array[i];
     if(modeMap[el] == null)
-        modeMap[el] = 1;
+      modeMap[el] = 1;
     else
         modeMap[el]++;  
     if(modeMap[el] > maxCount)
     {
-        maxEl = el;
-        maxCount = modeMap[el];
+      maxEl = el;
+      maxCount = modeMap[el];
     }
   }
   return maxEl;
+}
+
+// check string for whitespace -- (Stack Overflow: https://stackoverflow.com/questions/1731190/check-if-a-string-has-white-space)
+function hasWhiteSpace(s) {
+  return s.indexOf(' ') >= 0;
+}
+
+// get weather icon image
+function getWeatherIcon(iconStr) {
+  return `<img src="http://openweathermap.org/img/w/${iconStr}.png"></img>`;
+}
+
+// get random number
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
