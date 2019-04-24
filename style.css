@@ -1,6 +1,8 @@
-/* heading styles */
-#suggestion-heading {
-  text-align: center;
+/* suggestion styles */
+
+ .suggestions .card {
+  min-width: 200px;
+  min-height: 200px;
 }
 
 /* card styles */
@@ -8,11 +10,6 @@
   /* overwrite default bootstrap values for spacing on suggestions */
   margin-right: 0;
   margin-left: 0;
-}
-
-.suggestions .card {
-  width: 400px;
-  height: 400px;
 }
 
 #forecast-table .card {

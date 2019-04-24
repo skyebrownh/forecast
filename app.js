@@ -123,7 +123,6 @@ function getWeatherForecast (city) {
 
       resultList.innerHTML = output;
 
-      // FIXME: populate forecast table
       console.log(tableDays);
       for (let i = 0; i < 5; i += 1) {
         cardTitles[i].textContent = tableDays[i];
@@ -167,8 +166,6 @@ function getWeatherForecast (city) {
 function hasWhiteSpace(s) {
   return s.indexOf(' ') >= 0;
 }
-
-// FIXME: color scheme
 
 // get weather icon image
 function getWeatherIcon(iconStr) {
@@ -273,8 +270,20 @@ function getWeatherAverages() {
   const day3AvgValues = getAverageValues(daysData.day3);
   const day4AvgValues = getAverageValues(daysData.day4);
   const day5AvgValues = getAverageValues(daysData.day5);
+  const dayAvgArray = [
+    day1AvgValues,
+    day2AvgValues,
+    day3AvgValues,
+    day4AvgValues,
+    day5AvgValues
+  ];
 
   // FIXME: show in forecast chart
+  for (let i = 0; i < 5; i += 1) {
+    tempLabels[i].textContent = `${dayAvgArray[i].tempAvg} F${String.fromCharCode(176)}`;
+    highTempLabels[i].textContent = `${dayAvgArray[i].highAvg} F${String.fromCharCode(176)}`;
+    lowTempLabels[i].textContent = `${dayAvgArray[i].lowAvg} F${String.fromCharCode(176)}`;
+  }
 }
 
 // get average values

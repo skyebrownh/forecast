@@ -21,34 +21,28 @@
   </div><!-- ./jumbotron --> 
 
   <!-- FIXME: suggestions-->
-  <!-- FIXME: small screen sizes -->
   <!-- FIXME: make images links/buttons to automatically show those cities data -->
-  <!-- FIXME: scale images up on hover -->
-  <!-- FIXME: fix content sizing -->
-  <h2 class="mb-5" id="suggestion-heading">Suggestions based on popular U.S. cities:</h2>
+  <h2 class="mb-5 text-center" id="suggestion-heading">Suggestions based on popular U.S. cities:</h2>
   <div class="card-deck suggestions mb-4">
-    <div class="card bg-dark text-white">
+    <div class="card bg-dark text-white my-3">
       <img class="card-img" id="suggest1">
-      <div class="card-img-overlay">
-        <h5 class="card-title">New York</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text">Last updated 3 mins ago</p>
+      <div class="card-img-overlay text-center">
+        <h3 class="card-title text-uppercase mb-5 bg-light text-dark rounded">New York</h3>
+        <button type="button" class="btn btn-warning mt-5">Get Weather Data for New York</button>
       </div>
     </div>
-    <div class="card bg-dark text-white">
+    <div class="card bg-dark text-white my-3">
       <img class="card-img" id="suggest2">
-      <div class="card-img-overlay">
-        <h5 class="card-title">Los Angeles</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text">Last updated 3 mins ago</p>
+      <div class="card-img-overlay text-center">
+        <h3 class="card-title text-uppercase mb-5 bg-light text-dark rounded">Los Angeles</h3>
+        <button type="button" class="btn btn-warning mt-5">Get Weather Data for Los Angeles</button>
       </div>
     </div>
-    <div class="card bg-dark text-white">
+    <div class="card bg-dark text-white my-3">
       <img class="card-img" id="suggest3">
-      <div class="card-img-overlay">
-        <h5 class="card-title">Chicago</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text">Last updated 3 mins ago</p>
+      <div class="card-img-overlay text-center">
+        <h3 class="card-title text-uppercase mb-5 bg-light text-dark rounded">Chicago</h3>
+        <button type="button" class="btn btn-warning mt-5">Get Weather Data for Chicago</button>
       </div>
     </div>
   </div>
@@ -57,6 +51,7 @@
   <div class="container" id="main">
     <!-- form -->
     <form id="weather-form">
+      <h2 class="mb-5 text-center" id="form-heading">Or you can enter a city manually:</h2>
       <div class="form-row">
         <div class="col-md-4 col-lg-5">
           <input type="text" class="form-control my-3" id="city" placeholder="City">
@@ -65,7 +60,7 @@
           <input type="text" class="form-control my-3" id="state" placeholder="State">
         </div>
         <div class="col-md-4 col-lg-2">
-          <button type="submit" class="btn btn-primary my-3">Get Weather</button>
+          <button type="submit" class="btn btn-warning my-3">Get Weather</button>
         </div>
       </div>
     </form><!-- ./form -->
