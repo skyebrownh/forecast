@@ -40,21 +40,10 @@ form.addEventListener('submit', (e) => {
   // validation
   if (cityValue != '' && stateValue != '') {
     // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
-    document.querySelector('#forecast-table').style.display = 'flex';
-    document.querySelector('small').style.display = 'block';
     getWeatherForecast(cityValue);
   } else {
     // show alert for unfilled fields
-    const container = document.querySelector('#main');
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert alert-danger';
-    alertDiv.setAttribute('role', 'alert');
-    alertDiv.textContent = 'Please fill in all fields.';
-    container.insertBefore(alertDiv, form);
-
-    setTimeout(() => {
-      alertDiv.remove();
-    }, 3000);
+    showErrorAlert('Please fill in all fields.');
   }
 });
 
@@ -80,6 +69,10 @@ function getWeatherForecast (city) {
 
   xhr.onload = function() {
     if (this.status === 200) {
+      // display forecast table
+      document.querySelector('#forecast-table').style.display = 'flex';
+      document.querySelector('small').style.display = 'block';
+
       const response = JSON.parse(this.responseText);
       // console.log(response);
 
@@ -107,9 +100,7 @@ function getWeatherForecast (city) {
         const year = timestamp.getFullYear();
         const hour = timestamp.getHours();
         const min = timestamp.getMinutes();
-        let hourStr;
-        let minStr;
-        let meridiem; // AM or PM
+        let hourStr, minStr, meridiem; // meridiem -- AM or PM
 
         // make time look uniform and get meridiem
         hour < 10 ? hourStr = `0${hour}` : hourStr = `${hour}`;
@@ -137,38 +128,20 @@ function getWeatherForecast (city) {
       getWeatherAverages();
       // reset global arrays
       tableDays = [];
-      tableHighs = []
+      tableHighs = [];
       tableLows = [];
       tableTemps = [];
       tableMains = [];
       tableIcons = [];
     } else if (this.status === 404) {
       // show alert for '404 - NOT FOUND' error
-      const container = document.querySelector('#main');
-      const alertDiv = document.createElement('div');
-      alertDiv.className = 'alert alert-danger';
-      alertDiv.setAttribute('role', 'alert');
-      alertDiv.textContent = 'The city you entered could not be found. Please try again.';
-      container.insertBefore(alertDiv, form);
-
-      setTimeout(() => {
-        alertDiv.remove();
-      }, 3000);
+      showErrorAlert('The city you entered could not be found. Please try again.');
     }
   }
 
   xhr.onerror = function() {
     // show alert for request error
-    const container = document.querySelector('#main');
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert alert-danger';
-    alertDiv.setAttribute('role', 'alert');
-    alertDiv.textContent = 'Error retrieving data. Please try again.';
-    container.insertBefore(alertDiv, form);
-
-    setTimeout(() => {
-      alertDiv.remove();
-    }, 3000);
+    showErrorAlert('Error retrieving data. Please try again.');
   }
 
   xhr.send();
@@ -295,13 +268,7 @@ function getWeatherAverages() {
   const day4AvgValues = getAverageValues(daysData.day4);
   const day5AvgValues = getAverageValues(daysData.day5);
   // create array of objects holding average values for each day to be indexed with DOM labels
-  const dayAvgArray = [
-    day1AvgValues,
-    day2AvgValues,
-    day3AvgValues,
-    day4AvgValues,
-    day5AvgValues
-  ];
+  const dayAvgArray = [day1AvgValues, day2AvgValues, day3AvgValues, day4AvgValues, day5AvgValues];
 
   // show in forecast chart
   for (let i = 0; i < 5; i += 1) {
@@ -371,6 +338,20 @@ function mode(array) {
     }
   }
   return maxEl;
+}
+
+// show error alert
+function showErrorAlert(message) {
+  const container = document.querySelector('#main');
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert alert-danger';
+  alertDiv.setAttribute('role', 'alert');
+  alertDiv.textContent = `${message}`;
+  container.insertBefore(alertDiv, form);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
 }
 
 // check string for whitespace -- (Stack Overflow: https://stackoverflow.com/questions/1731190/check-if-a-string-has-white-space)
