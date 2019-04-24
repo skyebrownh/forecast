@@ -7,3 +7,4 @@ Languages and frameworks:
 2. CSS3
 3. JavaScript ES6
 4. Twitter Bootstrap 4
+5. AJAX and XHR
