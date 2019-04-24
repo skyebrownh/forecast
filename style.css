@@ -1,5 +1,4 @@
 /* suggestion styles */
-
  .suggestions .card {
   min-width: 200px;
   min-height: 200px;
@@ -10,6 +9,12 @@
   /* overwrite default bootstrap values for spacing on suggestions */
   margin-right: 0;
   margin-left: 0;
+}
+
+/* forecast styles */
+#forecast-table,
+small {
+  display: none;
 }
 
 #forecast-table .card {

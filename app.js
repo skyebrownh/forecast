@@ -41,6 +41,8 @@ const cardTitles = document.querySelectorAll('#forecast-table .card-title');
 const tempLabels = document.querySelectorAll('.temp-label');
 const highTempLabels = document.querySelectorAll('.high-temp');
 const lowTempLabels = document.querySelectorAll('.low-temp');
+const suggestionsDiv = document.querySelector('.suggestions');
+const submitBtn = document.querySelector('button[type=submit]');
 
 // form submit event listener
 form.addEventListener('submit', (e) => {
@@ -51,6 +53,8 @@ form.addEventListener('submit', (e) => {
 
   if (cityValue != '' && stateValue != '') {
     // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
+    document.querySelector('#forecast-table').style.display = 'flex';
+    document.querySelector('small').style.display = 'block';
     getWeatherForecast(cityValue);
   } else {
     // show alert for unfilled fields
@@ -64,6 +68,15 @@ form.addEventListener('submit', (e) => {
     setTimeout(() => {
       alertDiv.remove();
     }, 3000);
+  }
+});
+
+// suggestion buttons event listener (event delegation)
+suggestionsDiv.addEventListener('click', function (e) {
+  if (e.target.classList.contains('suggestion-btn')) {
+    document.querySelector('#city').value = e.target.getAttribute('id');
+    document.querySelector('#state').value = ' '; // state needs a value other than an empty string to avoid validation errors
+    submitBtn.click();
   }
 });
 
