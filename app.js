@@ -5,7 +5,8 @@ let tableDays = [],
     tableHighs = [],
     tableLows = [],
     tableTemps = [],
-    tableMains = [];
+    tableMains = [],
+    tableIcons = [];
 
 // populate suggestion images
 const weatherImgs = [
@@ -41,13 +42,14 @@ const tempLabels = document.querySelectorAll('.temp-label');
 const highTempLabels = document.querySelectorAll('.high-temp');
 const lowTempLabels = document.querySelectorAll('.low-temp');
 
+// form submit event listener
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const cityValue = document.querySelector('#city').value;
   const stateValue = document.querySelector('#state').value;
 
-  if (cityValue != '' || stateValue != '') {
+  if (cityValue != '' && stateValue != '') {
     // NOTE: state not needed for obtaining data, only city and country (set manually to United States)
     getWeatherForecast(cityValue);
   } else {
@@ -117,13 +119,13 @@ function getWeatherForecast (city) {
         tableLows.push(item.main.temp_min);
         tableTemps.push(item.main.temp);
         tableMains.push(item.weather[0].main);
+        tableIcons.push(item.weather[0].icon);
 
-        output += `<li class="list-group-item bg-light day${count}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
+        output += `<li class="list-group-item day${count}">${day}, ${month} ${date}, ${year} at ${hourStr}:${minStr} ${meridiem} : ${item.weather[0].main} ${getWeatherIcon(item.weather[0].icon)} -- ${item.weather[0].description} (${item.main.temp} F${String.fromCharCode(176)})</li>`;
       });
 
       resultList.innerHTML = output;
 
-      console.log(tableDays);
       for (let i = 0; i < 5; i += 1) {
         cardTitles[i].textContent = tableDays[i];
       }
@@ -179,7 +181,7 @@ function getRandomNumber(min, max) {
 
 // get weather averages
 function getWeatherAverages() {
-  // for the length of each day class, get the average of that day's temp, highTemp, lowTemp, and the main description that occurs the most
+  // for the length of each day class, get the average of that day's temp, highTemp, lowTemp, and the main description and icon that occurs the most
   const day1 = document.querySelectorAll('.day1');
   const day2 = document.querySelectorAll('.day2');
   const day3 = document.querySelectorAll('.day3');
@@ -191,31 +193,36 @@ function getWeatherAverages() {
       highTemps: [],
       lowTemps: [],
       temps: [],
-      mains: []
+      mains: [],
+      icons: []
     },
     day2: {
       highTemps: [],
       lowTemps: [],
       temps: [],
-      mains: []
+      mains: [],
+      icons: []
     },
     day3: {
       highTemps: [],
       lowTemps: [],
       temps: [],
-      mains: []
+      mains: [],
+      icons: []
     },
     day4: {
       highTemps: [],
       lowTemps: [],
       temps: [],
-      mains: []
+      mains: [],
+      icons: []
     },
     day5: {
       highTemps: [],
       lowTemps: [],
       temps: [],
-      mains: []
+      mains: [],
+      icons: []
     }
   }
 
@@ -224,6 +231,7 @@ function getWeatherAverages() {
     daysData.day1.lowTemps.push(tableLows[i]);
     daysData.day1.temps.push(tableTemps[i]);
     daysData.day1.mains.push(tableMains[i]);
+    daysData.day1.icons.push(tableIcons[i]);
   }
 
   let nextIndex = day1.length + day2.length;
@@ -233,6 +241,7 @@ function getWeatherAverages() {
     daysData.day2.lowTemps.push(tableLows[i]);
     daysData.day2.temps.push(tableTemps[i]);
     daysData.day2.mains.push(tableMains[i]);
+    daysData.day2.icons.push(tableIcons[i]);
   }
 
   let oldIndex = nextIndex;
@@ -243,6 +252,7 @@ function getWeatherAverages() {
     daysData.day3.lowTemps.push(tableLows[i]);
     daysData.day3.temps.push(tableTemps[i]);
     daysData.day3.mains.push(tableMains[i]);
+    daysData.day3.icons.push(tableIcons[i]);
   }
 
   oldIndex = nextIndex;
@@ -253,6 +263,7 @@ function getWeatherAverages() {
     daysData.day4.lowTemps.push(tableLows[i]);
     daysData.day4.temps.push(tableTemps[i]);
     daysData.day4.mains.push(tableMains[i]);
+    daysData.day4.icons.push(tableIcons[i]);
   }
 
   oldIndex = nextIndex;
@@ -263,6 +274,7 @@ function getWeatherAverages() {
     daysData.day5.lowTemps.push(tableLows[i]);
     daysData.day5.temps.push(tableTemps[i]);
     daysData.day5.mains.push(tableMains[i]);
+    daysData.day5.icons.push(tableIcons[i]);
   }
 
   const day1AvgValues = getAverageValues(daysData.day1);
@@ -278,11 +290,11 @@ function getWeatherAverages() {
     day5AvgValues
   ];
 
-  // FIXME: show in forecast chart
+  // show in forecast chart
   for (let i = 0; i < 5; i += 1) {
-    tempLabels[i].textContent = `${dayAvgArray[i].tempAvg} F${String.fromCharCode(176)}`;
-    highTempLabels[i].textContent = `${dayAvgArray[i].highAvg} F${String.fromCharCode(176)}`;
-    lowTempLabels[i].textContent = `${dayAvgArray[i].lowAvg} F${String.fromCharCode(176)}`;
+    tempLabels[i].innerHTML = `<h5 class="text-center font-italic text-uppercase" id="forecast-chart-main">${dayAvgArray[i].mainAvg} ${getWeatherIcon(dayAvgArray[i].iconAvg)}</h5> <h5 class="text-center text-weight-bold" id="forecast-chart-temp">${Math.round(dayAvgArray[i].tempAvg)} F${String.fromCharCode(176)}</h5>`;
+    highTempLabels[i].textContent = `HIGH -- ${Math.round(dayAvgArray[i].highAvg)} F${String.fromCharCode(176)}`;
+    lowTempLabels[i].textContent = `LOW -- ${Math.round(dayAvgArray[i].lowAvg)} F${String.fromCharCode(176)}`;
   }
 }
 
@@ -292,6 +304,7 @@ function getAverageValues(dayObject) {
   const dayLowTemps = dayObject.lowTemps;
   const dayTemps = dayObject.temps;
   const dayMains = dayObject.mains;
+  const dayIcons = dayObject.icons;
 
   // average of highTemps
   let sum1 = 0;
@@ -313,12 +326,14 @@ function getAverageValues(dayObject) {
   const tempAvg = sum3 / dayTemps.length;
   // most occurence in mains
   const mainAvg = mode(dayMains);
+  const iconAvg = mode(dayIcons);
 
   return {
     'highAvg': highAvg,
     'lowAvg': lowAvg,
     'tempAvg': tempAvg,
-    'mainAvg': mainAvg
+    'mainAvg': mainAvg,
+    'iconAvg': iconAvg
   }
 }
 
