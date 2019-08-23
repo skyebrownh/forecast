@@ -1,26 +1,21 @@
 # Forecast
 
-Screenshot or gif:
-- [ttygif](https://github.com/icholy/ttygif)
-- [asciinema](https://asciinema.org/)
-
-*(badges and shields)*
+[](./img/forecast-screenshot.png)
 
 ***
 **Table Of Contents**
 
 - [Project description](#project-description)
 - [Installation](#installation)
-- [Example Usage](#example-usage)
-- [Build / Deploy](#build-/-deploy)
+- [Build](#build)
 - [Contributing](#contributing)
 - [Support](#support)
 - [Change log](#change-log)
-- [Project Status](#important:-project-status)
+- [Project Status](#project-status)
 - [License](#license)
 ***
 
-***Project description:***
+#### Project description:
 
 This open-source web application displays the 5-day / 3-hour forecast of the U.S. city of the user's choice. Suggestions are given for first-time users. 
 
@@ -38,17 +33,7 @@ This open-source web application displays the 5-day / 3-hour forecast of the U.S
 $ git clone git@github.com:skyebrownh/forecast.git
 ```
 
-## Example Usage
-
-```
-Code block of useful examples
-
-Show expected output
-```
-
-- Links to more sophisticated examples
-
-## Build / Deploy
+## Build
 
 Currently, this project is not live on the web. You'll have to run it locally to view the site. 
 
@@ -68,7 +53,7 @@ If you have any questions you can contact the author. Contact Information is pro
   - outputs the 5-day / 3-hour forecast for that city and state
   - provides a few popular city suggestions for first-time users
 
-## IMPORTANT: Project Status
+## Project Status
 
 This project is no longer in progress and the development / improvement of the product has stopped permanently. If anyone would like to make this project better or wants to become a maintainer, please contact the author. Contact information is provided below.
 
