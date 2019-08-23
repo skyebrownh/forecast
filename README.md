@@ -1,6 +1,6 @@
 # Forecast
 
-[](./img/forecast-screenshot.png)
+![forecast homepage screenshot](https://github.com/skyebrownh/forecast/blob/master/img/forecast-screenshot.png)
 
 ***
 **Table Of Contents**
